@@ -1,0 +1,59 @@
+@tailwind base;
+
+@font-face {
+    font-family: 'Dirtyline';
+    src: url(./font/Dirtyline36daysoftype.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'DxGrafikBold';
+    src: url(./font/DxGrafik-SemiBold.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'DxGrafikItalic';
+    src: url(./font/DxGrafik-BlackItalic.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'PPRegular';
+    src: url(./font/PPEditorialNew-Regular.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: 'PPitalic';
+    src: url(./font/PPEditorialNew-Italic.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: 'HankenGrotesk-Regular';
+    src: url(./font/HankenGrotesk-Regular.ttf ) format('truetype');
+}
+
+::-webkit-scrollbar {
+    display: none;
+  }
+
+html.lenis, html.lenis body {
+    height: auto;
+}
+  
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+  
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+  
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+  
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+} 
+
+@tailwind components;
+@tailwind utilities;
+
