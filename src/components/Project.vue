@@ -20,16 +20,16 @@
                         </div>
                     </div>
                 </a>
-                <a href="https://github.com/luminescencedev/alpineJs_Final" target="_blank" class="flex-grow group" style="opacity: 1; transform: none;">
+                <a href="https://github.com/luminescencedev/portfolio" target="_blank" class="flex-grow group" style="opacity: 1; transform: none;">
                     <div class="flex flex-col items-center justify-center flex-grow border-b border-zinc-500">
                         <div class="flex items-center justify-between w-full px-24 py-12">
                             <div class="my-3">
-                                <h1 class="text-4xl font-medium transition-all duration-500 ease-in-out group-hover:translate-x-12 group-hover:text-blue-400">Alpine.js</h1>
+                                <h1 class="text-4xl font-medium transition-all duration-500 ease-in-out group-hover:translate-x-12 group-hover:text-blue-400">My Portfolio</h1>
                                 <h1 class="text-sm font-light transition-all duration-300 ease-in-out text-zinc-500 group-hover:translate-x-12">2024</h1>
                             </div>
                             <div>
                                 <h1 class="text-xl font-light transition-all duration-300 ease-in-out group-hover:-translate-x-12">UI/UX Design & Development</h1>
-                                <h1 class="text-sm font-light transition-all duration-300 ease-in-out text-zinc-500 group-hover:-translate-x-12">Alpine.js, Gsap, Lenis, Tailwindcss</h1>
+                                <h1 class="text-sm font-light transition-all duration-300 ease-in-out text-zinc-500 group-hover:-translate-x-12">Vue.js, Gsap, Lenis, Tailwindcss</h1>
                             </div>
                         </div>
                     </div>

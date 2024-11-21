@@ -4,6 +4,8 @@ import Lenis from 'lenis';
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import Intro from "./components/Intro.vue";
+import TinyContact from "./components/TinyContact.vue";
+import About from "./components/About.vue";
 import Contact from "./components/Contact.vue";
 import Project from "./components/Project.vue";
 
@@ -25,9 +27,11 @@ requestAnimationFrame(raf);
     <div class="flex flex-col justify-center items-center w-screen min-h-screen mx-auto">
       <Header />
       <Intro />
-      <Contact />
+      <TinyContact />
     </div>
     <Project />
+    <About />
+    <Contact />
     <Footer />
   </div>
 </template>
