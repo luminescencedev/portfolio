@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "ROXBOROUGH";
+  src: url("./fonts/ROXBOROUGH-CF-REGULAR-ITALIC.OTF") format("opentype");
+}
