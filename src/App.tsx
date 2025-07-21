@@ -1,65 +1,36 @@
 import { cn } from "./utils/cn";
-import { RevealText } from "./components";
+import { RevealText, Terminal } from "./components";
+import gsap from "gsap";
 
 const App = () => {
+  const handleRevealComplete = () => {
+    gsap.to(".title", {
+      left: "0%",
+      bottom: "0%",
+      fontSize: "14rem",
+      duration: 2.5,
+      ease: "power2.inOut",
+      translateY: "0%",
+      translateX: "50%",
+    });
+  };
   return (
     <>
-      <div className="h-screen w-screen p-8">
-        <div className="h-screen w-max">
-          <RevealText
-            className={cn("text-9xl font-[ROXBOROUGH] text-[#1C1C1C]")}
-            splitBy="chars"
-            direction="up"
-            duration={0.8}
-            stagger={0.05}
-            delay={0.2}
-            trigger="auto"
-          >
-            Arthur
-          </RevealText>
+      <div className="h-screen w-screen overflow-hidden flex items-center justify-center relative">
+        <Terminal />
 
-          <div className="mt-12">
-            <RevealText
-              className="text-2xl text-gray-600"
-              splitBy="words"
-              direction="up"
-              duration={0.6}
-              stagger={0.1}
-              delay={1.2}
-              trigger="auto"
-            >
-              Creative Developer & Designer
-            </RevealText>
-          </div>
-
-          <div className="mt-8">
-            <RevealText
-              className="text-lg text-gray-500 max-w-md"
-              splitBy="lines"
-              direction="up"
-              duration={0.8}
-              stagger={0.2}
-              delay={2}
-              trigger="auto"
-            >
-              {`Crafting digital experiences\nwith passion and precision\nthrough code and design`}
-            </RevealText>
-          </div>
-
-          <nav className="mt-16">
-            <RevealText
-              className="text-xl text-[#1C1C1C] cursor-pointer hover:opacity-70 transition-opacity"
-              splitBy="chars"
-              direction="left"
-              duration={0.5}
-              stagger={0.03}
-              delay={3}
-              trigger="auto"
-            >
-              Portfolio
-            </RevealText>
-          </nav>
-        </div>
+        <RevealText
+          className={cn(
+            " text-[28rem] font-[ROXBOROUGH] text-zinc-900 leading-[90%] absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 title"
+          )}
+          splitBy="chars"
+          duration={1}
+          stagger={0.1}
+          delay={0.5}
+          onComplete={handleRevealComplete}
+        >
+          Arthur.
+        </RevealText>
       </div>
     </>
   );

@@ -4,3 +4,76 @@
   font-family: "ROXBOROUGH";
   src: url("./fonts/ROXBOROUGH-CF-REGULAR-ITALIC.OTF") format("opentype");
 }
+
+:root {
+  overflow: hidden;
+  background-image: url("./assets/uhq5zTcMPM3tOW_fbUz4PayDt_5pkEXdyXXoRWs3XOg.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.split-char {
+  -webkit-text-stroke: 3px transparent;
+  transition: color 0.5s ease, -webkit-text-stroke 0.5s ease;
+}
+
+.title:hover .split-char {
+  color: transparent;
+  -webkit-text-stroke: 3px #1c1c1c;
+}
+
+/* Terminal Card Styles */
+.card {
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+  border-radius: inherit;
+  transition: opacity 0.26s ease-out;
+  border-radius: 28px;
+  filter: drop-shadow(-8px -10px 46px #0000005f);
+  backdrop-filter: brightness(1.1) blur(2px) url(#displacementFilter);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  -webkit-box-shadow: inset 2px 2px 0px -2px rgba(255, 255, 255, 0.7),
+    inset 0 0 3px 1px rgba(255, 255, 255, 0.7);
+  box-shadow: inset 6px 6px 0px -6px rgba(255, 255, 255, 0.7),
+    inset 0 0 8px 1px rgba(255, 255, 255, 0.7);
+}
+
+.card {
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: inherit;
+  transition: opacity 0.26s ease-out;
+  border-radius: 28px;
+  filter: drop-shadow(-8px -10px 46px #0000005f);
+  backdrop-filter: brightness(1.1) blur(2px) url(#displacementFilter);
+  position: relative;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  -webkit-box-shadow: inset 2px 2px 0px -2px rgba(255, 255, 255, 0.7),
+    inset 0 0 3px 1px rgba(255, 255, 255, 0.7);
+  box-shadow: inset 6px 6px 0px -6px rgba(255, 255, 255, 0.7),
+    inset 0 0 8px 1px rgba(255, 255, 255, 0.7);
+}
