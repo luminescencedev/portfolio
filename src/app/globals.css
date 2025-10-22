@@ -1,26 +1,24 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*::-webkit-scrollbar {
+  display: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: jenson-italic;
+  src: url("../fonts/fs-jenson-1-italic.ttf") format("truetype");
+}
+@font-face {
+  font-family: jenson;
+  src: url("../fonts/fs-jenson-1.ttf") format("truetype");
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@font-face {
+  font-family: PPMondwest;
+  src: url(../fonts/PPMONDWEST-REGULAR.OTF) format("opentype");
 }
