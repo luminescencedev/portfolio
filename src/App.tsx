@@ -1,7 +1,11 @@
+import Loader from "@/components/Loader";
+
 const App = () => {
   return (
     <>
-      <div>cc</div>
+      <div>
+        <Loader />
+      </div>
     </>
   );
 };
