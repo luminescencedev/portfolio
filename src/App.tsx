@@ -9,14 +9,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   const lenisRef = useRef<Lenis | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
-    window.scrollTo(0, 0);
 
-    const lenis = new Lenis();
+    const lenis = new Lenis({
+      wrapper: scrollContainerRef.current!,
+      content: scrollContainerRef.current!,
+    });
+
     lenisRef.current = lenis;
 
     function raf(time: number) {
@@ -26,28 +30,11 @@ const App = () => {
 
     requestAnimationFrame(raf);
 
-    lenis.on("scroll", () => {
-      ScrollTrigger.update();
-    });
+    lenis.on("scroll", ScrollTrigger.update);
 
-    ScrollTrigger.scrollerProxy(document.body, {
-      scrollTop(value?: number) {
-        if (typeof value === "number") {
-          lenis.scrollTo(value, { immediate: true });
-        }
-        return window.scrollY;
-      },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
+    ScrollTrigger.defaults({
+      scroller: scrollContainerRef.current!,
     });
-
-    ScrollTrigger.refresh();
 
     document.body.style.overflow = "hidden";
     lenis.stop();
@@ -120,7 +107,6 @@ const App = () => {
       duration: 1.5,
       ease: "circ.inOut",
       onComplete: () => {
-        document.body.style.overflow = "auto";
         lenisRef.current?.start();
         ScrollTrigger.refresh();
       },
@@ -192,13 +178,21 @@ const App = () => {
         />
       </div>
 
-      <div ref={portfolioRef} className="absolute inset-0 z-10 opacity-0">
-        <section
-          id="section1"
-          className="h-[200vh] w-screen bg-[#09090b] text-white"
-        >
-          Section 1
-        </section>
+      <div
+        ref={portfolioRef}
+        className="absolute inset-0 z-10 opacity-0 overflow-hidden bg-[#09090b]"
+      >
+        <div ref={scrollContainerRef} className="h-full w-full overflow-hidden">
+          <div className="w-full">
+            <section className="h-screen w-screen text-white">
+              Section 1
+            </section>
+
+            <section className="h-screen w-screen text-white">
+              Section 2
+            </section>
+          </div>
+        </div>
       </div>
     </div>
   );
