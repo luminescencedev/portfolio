@@ -1,9 +1,63 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ImageDithering } from "@paper-design/shaders-react";
 import { useWindowSize } from "./utils/useWindowSize";
+import Lenis from "lenis";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+
+    const lenis = new Lenis();
+    lenisRef.current = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    lenis.on("scroll", () => {
+      ScrollTrigger.update();
+    });
+
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value?: number) {
+        if (typeof value === "number") {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return window.scrollY;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+    });
+
+    ScrollTrigger.refresh();
+
+    document.body.style.overflow = "hidden";
+    lenis.stop();
+
+    return () => {
+      lenis.destroy();
+      ScrollTrigger.killAll();
+    };
+  }, []);
+
   const blackDivRef = useRef<HTMLDivElement>(null);
   const portfolioRef = useRef<HTMLDivElement>(null);
   const whiteBarRef = useRef<HTMLDivElement>(null);
@@ -11,6 +65,7 @@ const App = () => {
 
   const { width, height } = useWindowSize();
   const isMobile = width <= 768;
+
   const handleClick = () => {
     const tl = gsap.timeline();
 
@@ -28,15 +83,12 @@ const App = () => {
         left: -6,
         duration: 2,
         ease: "circ.inOut",
-
         keyframes: {
           width: [6, 60, 6],
           duration: 2,
           ease: "circ.inOut",
           onComplete: () => {
-            tl.to(whiteBarRef.current, {
-              display: "none",
-            });
+            gsap.set(whiteBarRef.current, { display: "none" });
           },
         },
       },
@@ -51,6 +103,7 @@ const App = () => {
       },
       "<",
     );
+
     tl.add(() => {
       gsap.set(portfolioRef.current, {
         scale: isMobile ? 0.9 : 0.8,
@@ -66,22 +119,35 @@ const App = () => {
       scale: 1,
       duration: 1.5,
       ease: "circ.inOut",
+      onComplete: () => {
+        document.body.style.overflow = "auto";
+        lenisRef.current?.start();
+        ScrollTrigger.refresh();
+      },
     });
   };
 
   const image = "/bansai.png";
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center">
+    <div className="h-screen w-screen flex justify-center items-center overflow-hidden inset-0">
       <div
         ref={blackDivRef}
-        className={`w-full h-full grid relative overflow-hidden z-20 ${isMobile ? "grid-cols-5 grid-rows-5 gap-1" : "grid-cols-8 grid-rows-8 gap-2"}`}
+        className={`w-full h-full grid relative overflow-hidden z-20 ${
+          isMobile
+            ? "grid-cols-5 grid-rows-5 gap-1"
+            : "grid-cols-8 grid-rows-8 gap-2"
+        }`}
       >
         <div
-          className={`${isMobile ? "col-start-4 row-start-4" : "col-start-7 row-start-7"} relative flex items-center justify-center`}
+          className={`${
+            isMobile ? "col-start-4 row-start-4" : "col-start-7 row-start-7"
+          } relative flex items-center justify-center`}
         >
           <div
-            className={`${isMobile ? "col-start-4 row-start-4" : "col-start-7 row-start-7"} relative p-4 cursor-pointer group flex items-center justify-center`}
+            className={`${
+              isMobile ? "col-start-4 row-start-4" : "col-start-7 row-start-7"
+            } relative p-4 cursor-pointer group flex items-center justify-center`}
             onClick={handleClick}
           >
             <div className="aspect-square w-full max-h-full">
@@ -126,11 +192,13 @@ const App = () => {
         />
       </div>
 
-      <div
-        ref={portfolioRef}
-        className="absolute inset-0 z-10 opacity-0 bg-[#09090b] text-white flex justify-center items-center"
-      >
-        <img src="/nugget.jpg" alt="" />
+      <div ref={portfolioRef} className="absolute inset-0 z-10 opacity-0">
+        <section
+          id="section1"
+          className="h-[200vh] w-screen bg-[#09090b] text-white"
+        >
+          Section 1
+        </section>
       </div>
     </div>
   );

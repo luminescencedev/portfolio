@@ -4,3 +4,8 @@
   font-family: PPValve;
   src: url(./fonts/PPVALVE-PLAINMEDIUM.OTF) format("opentype");
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
