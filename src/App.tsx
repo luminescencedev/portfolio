@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { ImageDithering } from "@paper-design/shaders-react";
-import React from "react";
+import { useWindowSize } from "./utils/useWindowSize";
 
 const App = () => {
   const blackDivRef = useRef<HTMLDivElement>(null);
@@ -9,11 +9,13 @@ const App = () => {
   const whiteBarRef = useRef<HTMLDivElement>(null);
   const blackOverlayRef = useRef<HTMLDivElement>(null);
 
+  const { width, height } = useWindowSize();
+  const isMobile = width <= 768;
   const handleClick = () => {
     const tl = gsap.timeline();
 
     tl.to(blackDivRef.current, {
-      scale: 0.8,
+      scale: isMobile ? 0.9 : 0.8,
       duration: 1.5,
       ease: "circ.inOut",
       delay: 0.2,
@@ -51,7 +53,7 @@ const App = () => {
     );
     tl.add(() => {
       gsap.set(portfolioRef.current, {
-        scale: 0.8,
+        scale: isMobile ? 0.9 : 0.8,
         opacity: 1,
       });
 
@@ -69,37 +71,32 @@ const App = () => {
 
   const image = "/bansai.png";
 
-  const [width, setWidth] = React.useState<number>(window.innerWidth);
-  const [height, setHeight] = React.useState<number>(window.innerHeight);
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
     <div className="h-screen w-screen flex justify-center items-center">
       <div
         ref={blackDivRef}
-        className="w-full h-full grid grid-cols-8 grid-rows-8 gap-2 relative overflow-hidden z-20"
+        className={`w-full h-full grid relative overflow-hidden z-20 ${isMobile ? "grid-cols-5 grid-rows-5 gap-1" : "grid-cols-8 grid-rows-8 gap-2"}`}
       >
         <div
-          className="col-start-7 row-start-7 relative py-4 cursor-pointer group"
-          onClick={handleClick}
+          className={`${isMobile ? "col-start-4 row-start-4" : "col-start-7 row-start-7"} relative flex items-center justify-center`}
         >
-          <img
-            className="h-full w-full group-hover:scale-95 transition-transform duration-300"
-            src="/logo.svg"
-            alt="Logo"
-          />
-          <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-zinc-700 transition-all duration-300 group-hover:-translate-x-2 group-hover:-translate-y-2"></div>
-          <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-zinc-700 transition-all duration-300 group-hover:translate-x-2 group-hover:-translate-y-2"></div>
-          <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-zinc-700 transition-all duration-300 group-hover:-translate-x-2 group-hover:translate-y-2"></div>
-          <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-zinc-700 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2"></div>
+          <div
+            className={`${isMobile ? "col-start-4 row-start-4" : "col-start-7 row-start-7"} relative p-4 cursor-pointer group flex items-center justify-center`}
+            onClick={handleClick}
+          >
+            <div className="aspect-square w-full max-h-full">
+              <img
+                src="/logo.svg"
+                alt="Logo"
+                className="w-full h-full object-contain group-hover:scale-95 transition-transform duration-300"
+              />
+            </div>
+
+            <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-zinc-700 transition-all duration-300 group-hover:-translate-x-2 group-hover:-translate-y-2"></div>
+            <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-zinc-700 transition-all duration-300 group-hover:translate-x-2 group-hover:-translate-y-2"></div>
+            <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-zinc-700 transition-all duration-300 group-hover:-translate-x-2 group-hover:translate-y-2"></div>
+            <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-zinc-700 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2"></div>
+          </div>
         </div>
 
         <div
@@ -133,7 +130,7 @@ const App = () => {
         ref={portfolioRef}
         className="absolute inset-0 z-10 opacity-0 bg-[#09090b] text-white flex justify-center items-center"
       >
-        <h1 className="text-4xl font-[PPValve]">Welcome to my Portfolio</h1>
+        <img src="/nugget.jpg" alt="" />
       </div>
     </div>
   );
