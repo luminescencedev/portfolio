@@ -1,109 +1,12 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
+import { ImageDithering } from "@paper-design/shaders-react";
+import React from "react";
 
 const Loader = () => {
   const blackDivRef = useRef<HTMLDivElement>(null);
-  const numberRef = useRef<HTMLDivElement>(null);
-  const numberDivRef = useRef<HTMLDivElement>(null);
-  const [loadingNumber, setLoadingNumber] = useState(0);
-
-  useEffect(() => {
-    const tl = gsap.timeline();
-    const numberObj = { value: 0 };
-
-    tl.set(numberDivRef.current, { y: "0vh" });
-    tl.set(numberRef.current, { top: "auto" });
-    tl.set(numberObj, { value: 0 });
-
-    tl.to(numberObj, {
-      value: 13,
-      duration: 0.9,
-      ease: "power2.inOut",
-      onUpdate: () => setLoadingNumber(Math.floor(numberObj.value)),
-    })
-      .to(
-        numberDivRef.current,
-        { y: "16.67vh", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      )
-      .to(
-        numberRef.current,
-        { bottom: "83.33%", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      );
-
-    tl.to(numberObj, {
-      value: 42,
-      duration: 0.9,
-      ease: "power2.inOut",
-      onUpdate: () => setLoadingNumber(Math.floor(numberObj.value)),
-    })
-      .to(
-        numberDivRef.current,
-        { y: "33.33vh", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      )
-      .to(
-        numberRef.current,
-        { bottom: "50%", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      );
-
-    tl.to(numberObj, {
-      value: 64,
-      duration: 0.9,
-      ease: "power2.inOut",
-      onUpdate: () => setLoadingNumber(Math.floor(numberObj.value)),
-    })
-      .to(
-        numberDivRef.current,
-        { y: "50vh", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      )
-      .to(
-        numberRef.current,
-        { bottom: "33.33%", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      );
-
-    tl.to(numberObj, {
-      value: 92,
-      duration: 0.9,
-      ease: "power2.inOut",
-      onUpdate: () => setLoadingNumber(Math.floor(numberObj.value)),
-    })
-      .to(
-        numberDivRef.current,
-        { y: "66.67vh", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      )
-      .to(
-        numberRef.current,
-        { bottom: "16.67%", duration: 0.9, ease: "power2.inOut" },
-        "<",
-      );
-
-    tl.to(numberObj, {
-      value: 100,
-      duration: 0.8,
-      ease: "power2.inOut",
-      onUpdate: () => setLoadingNumber(Math.floor(numberObj.value)),
-    })
-      .to(
-        numberDivRef.current,
-        { y: "83.33vh", duration: 1.2, ease: "power2.inOut" },
-        "<",
-      )
-      .to(
-        numberRef.current,
-        { bottom: 0, duration: 1.2, ease: "power2.inOut" },
-        "<",
-      );
-
-    return () => {
-      tl.kill();
-    };
-  }, []);
+  const whiteBarRef = useRef<HTMLDivElement>(null);
+  const blackOverlayRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
     const tl = gsap.timeline();
@@ -111,30 +14,113 @@ const Loader = () => {
     tl.to(blackDivRef.current, {
       scale: 0.8,
       duration: 1.5,
-      ease: "power2.inOut",
+      ease: "circ.inOut",
       delay: 0.2,
+    });
+
+    tl.to(
+      whiteBarRef.current,
+      {
+        right: "auto",
+        left: -6,
+        duration: 2,
+        ease: "circ.inOut",
+
+        keyframes: {
+          width: [6, 60, 6],
+          duration: 2,
+          ease: "circ.inOut",
+          onComplete: () => {
+            tl.to(whiteBarRef.current, {
+              display: "none",
+            });
+          },
+        },
+      },
+      "+=0.3",
+    ).to(
+      blackOverlayRef.current,
+      {
+        left: 0,
+        right: "auto",
+        duration: 2,
+        ease: "circ.inOut",
+      },
+      "<",
+    );
+
+    tl.to(blackDivRef.current, {
+      scale: 1,
+      duration: 1.5,
+      ease: "circ.inOut",
+      onComplete: () => {
+        tl.to(blackDivRef.current, {
+          display: "none",
+        });
+      },
     });
   };
 
+  const image = "/bansai.png";
+
+  const [width, setWidth] = React.useState<number>(window.innerWidth);
+  const [height, setHeight] = React.useState<number>(window.innerHeight);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div className="h-screen w-screen bg-white flex justify-center items-center">
+    <div className="h-screen w-screen flex justify-center items-center">
       <div
         ref={blackDivRef}
-        className="h-full w-full bg-black grid grid-cols-6 grid-rows-6 overflow-hidden"
+        className="w-full h-full grid grid-cols-8 grid-rows-8 gap-2 relative overflow-hidden"
       >
-        <div ref={numberDivRef} className="row-start-1 col-start-1">
-          <p ref={numberRef} className="text-white text-9xl absolute">
-            {loadingNumber}
-          </p>
-        </div>
         <div
+          className="col-start-7 row-start-7 relative py-4 cursor-pointer group"
           onClick={handleClick}
-          className="row-start-6 col-start-6 text-white flex items-end justify-start"
         >
-          <div className="h-[50%] w-[50%] flex items-end">
-            <p className="text-5xl hover:scale-150 transition-all">A</p>
-          </div>
+          <img
+            className="h-full w-full group-hover:scale-95 transition-transform duration-300"
+            src="/logo.svg"
+            alt="Logo"
+          />
+          <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-zinc-700 transition-all duration-300 group-hover:-translate-x-2 group-hover:-translate-y-2"></div>
+          <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-zinc-700 transition-all duration-300 group-hover:translate-x-2 group-hover:-translate-y-2"></div>
+          <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-zinc-700 transition-all duration-300 group-hover:-translate-x-2 group-hover:translate-y-2"></div>
+          <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-zinc-700 transition-all duration-300 group-hover:translate-x-2 group-hover:translate-y-2"></div>
         </div>
+
+        <div
+          ref={whiteBarRef}
+          className="h-full w-0 absolute right-0 bg-white z-10"
+        ></div>
+
+        <div
+          ref={blackOverlayRef}
+          className="w-full h-full absolute -right-full bg-[#09090b]"
+        ></div>
+
+        <ImageDithering
+          width={width}
+          height={height}
+          image={image}
+          colorBack="#09090b"
+          colorFront="#3f3f46"
+          colorHighlight="#09090b"
+          originalColors={false}
+          inverted={false}
+          type="2x2"
+          size={2.4}
+          colorSteps={2}
+          fit="cover"
+          className="absolute top-0 left-0 w-full h-full -z-1"
+        />
       </div>
     </div>
   );
