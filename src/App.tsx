@@ -48,7 +48,7 @@ const App = () => {
   const blackDivRef = useRef<HTMLDivElement>(null);
   const portfolioRef = useRef<HTMLDivElement>(null);
   const whiteBarRef = useRef<HTMLDivElement>(null);
-  const blackOverlayRef = useRef<HTMLDivElement>(null);
+  // const blackOverlayRef = useRef<HTMLDivElement>(null);
 
   const { width, height } = useWindowSize();
   const isMobile = width <= 768;
@@ -80,37 +80,26 @@ const App = () => {
         },
       },
       "+=0.3",
-    ).to(
-      blackOverlayRef.current,
-      {
-        left: 0,
-        right: "auto",
-        duration: 2,
+    )
+      .to(
+        portfolioRef.current,
+        {
+          left: 0,
+          right: "auto",
+          duration: 2,
+          ease: "circ.inOut",
+        },
+        "<",
+      )
+      .to(blackDivRef.current, {
+        scale: 1,
+        duration: 1.5,
         ease: "circ.inOut",
-      },
-      "<",
-    );
-
-    tl.add(() => {
-      gsap.set(portfolioRef.current, {
-        scale: isMobile ? 0.9 : 0.8,
-        opacity: 1,
+        onComplete: () => {
+          lenisRef.current?.start();
+          ScrollTrigger.refresh();
+        },
       });
-
-      gsap.set(blackDivRef.current, {
-        display: "none",
-      });
-    });
-
-    tl.to(portfolioRef.current, {
-      scale: 1,
-      duration: 1.5,
-      ease: "circ.inOut",
-      onComplete: () => {
-        lenisRef.current?.start();
-        ScrollTrigger.refresh();
-      },
-    });
   };
 
   const image = "/bansai.png";
@@ -157,9 +146,22 @@ const App = () => {
         ></div>
 
         <div
-          ref={blackOverlayRef}
-          className="w-full h-full absolute -right-full bg-[#09090b]"
-        ></div>
+          ref={portfolioRef}
+          className="w-full h-full absolute -right-full bg-[#09090b] overflow-hidden"
+        >
+          <div
+            ref={scrollContainerRef}
+            className="h-full w-full overflow-hidden"
+          >
+            <section className="h-screen w-screen text-white">
+              Section 1
+            </section>
+
+            <section className="h-screen w-screen text-white">
+              Section 2
+            </section>
+          </div>
+        </div>
 
         <ImageDithering
           width={width}
@@ -176,23 +178,6 @@ const App = () => {
           fit="cover"
           className="absolute top-0 left-0 w-full h-full -z-1"
         />
-      </div>
-
-      <div
-        ref={portfolioRef}
-        className="absolute inset-0 z-10 opacity-0 overflow-hidden bg-[#09090b]"
-      >
-        <div ref={scrollContainerRef} className="h-full w-full overflow-hidden">
-          <div className="w-full">
-            <section className="h-screen w-screen text-white">
-              Section 1
-            </section>
-
-            <section className="h-screen w-screen text-white">
-              Section 2
-            </section>
-          </div>
-        </div>
       </div>
     </div>
   );
