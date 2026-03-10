@@ -1,20 +1,18 @@
 "use client";
 
-import { useRef, useEffect, useCallback, useState } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ImageDithering } from "@paper-design/shaders-react";
 import { useWindowSize } from "./utils/useWindowSize";
 import Lenis from "lenis";
 import Reveal from "./components/Reveal";
-import Project from "./components/Project";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   const lenisRef = useRef<Lenis | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scroller, setScroller] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
@@ -27,7 +25,6 @@ const App = () => {
     });
 
     lenisRef.current = lenis;
-    setScroller(scrollContainerRef.current);
 
     function raf(time: number) {
       lenis.raf(time);
@@ -109,14 +106,6 @@ const App = () => {
         "<",
       );
   };
-
-  // Expose scrollTo for ProjectsSection thumbnail clicks
-  const handleScrollTo = useCallback((value: number) => {
-    lenisRef.current?.scrollTo(value, {
-      duration: 0.9,
-      easing: (t: number) => 1 - Math.pow(1 - t, 4),
-    });
-  }, []);
 
   const image = "/bansai.png";
 
@@ -261,10 +250,7 @@ const App = () => {
               </div>
             </section>
 
-            {/* ── 3. Projects (sticky scroll) ──────────────────────── */}
-            <Project scroller={scroller} onScrollTo={handleScrollTo} />
-
-            {/* ── 4. Contact ───────────────────────────────────────── */}
+            {/* ── 3. Contact ───────────────────────────────────────── */}
             <section className="min-h-screen w-full flex flex-col justify-center px-6 md:px-16 py-24 text-white gap-16">
               <div className="flex items-center gap-6">
                 <Reveal>
