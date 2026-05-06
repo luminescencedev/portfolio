@@ -1,4 +1,9 @@
-import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useSpring,
+} from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 const EASTER_X = 67;
@@ -34,7 +39,7 @@ export default function CustomCursor() {
   return (
     <motion.div
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-9999 will-change-transform hidden lg:block"
+      className="pointer-events-none fixed left-0 top-0 z-9999 will-change-transform hidden lg:block mix-blend-difference"
       style={{ x, y }}
     >
       <AnimatePresence mode="wait">
@@ -49,13 +54,24 @@ export default function CustomCursor() {
           >
             <motion.div
               animate={{ x: [-1, 1, -2, 2, -1, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
+              transition={{
+                duration: 0.6,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "easeInOut",
+              }}
             >
               six...
             </motion.div>
             <motion.div
               animate={{ x: [1, -1, 2, -2, 1, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity, repeatType: "loop", ease: "easeInOut", delay: 0.3 }}
+              transition={{
+                duration: 0.6,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "easeInOut",
+                delay: 0.3,
+              }}
             >
               sevennn
             </motion.div>
@@ -67,7 +83,7 @@ export default function CustomCursor() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="font-mono text-[10px] leading-tight text-black"
+            className="font-mono text-[10px] leading-tight text-white mix-blend-difference"
           >
             <div ref={xTextRef}>x: 0px</div>
             <div ref={yTextRef}>y: 0px</div>
