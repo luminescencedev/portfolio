@@ -39,7 +39,7 @@ export default function CustomCursor() {
   return (
     <motion.div
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-9999 will-change-transform hidden lg:block mix-blend-difference"
+      className="pointer-events-none fixed left-0 top-0 z-9999 will-change-transform hidden lg:block"
       style={{ x, y }}
     >
       <AnimatePresence mode="wait">
@@ -83,7 +83,7 @@ export default function CustomCursor() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="font-mono text-[10px] leading-tight text-white mix-blend-difference"
+            className="font-mono text-[10px] leading-tight text-black"
           >
             <div ref={xTextRef}>x: 0px</div>
             <div ref={yTextRef}>y: 0px</div>
