@@ -50,7 +50,7 @@ export const works: WorkProject[] = [
   },
   {
     slug: "linkshelf",
-    year: "2026",
+    year: "",
     title: "LinkShelf",
     desc: "Extension for bookmarking",
     longDesc:
@@ -66,7 +66,7 @@ export const works: WorkProject[] = [
   },
   {
     slug: "carabine-ui",
-    year: "2026",
+    year: "",
     title: "Carabine UI",
     desc: "React component library",
     longDesc:
