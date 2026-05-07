@@ -3,6 +3,7 @@ import Works from "../components/Works";
 import About from "../components/About";
 import WorkTimeline from "../components/WorkTimeline";
 import Links from "../components/Links";
+import Clock from "../components/Clock/Clock";
 import CustomCursor from "../components/CustomCursor";
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
           <WorkTimeline />
           <Works />
           <Links />
+          <Clock />
         </div>
         <div className="flex-1" />
       </div>
