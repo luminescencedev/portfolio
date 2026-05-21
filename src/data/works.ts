@@ -1,7 +1,6 @@
 import type { IconType } from "react-icons";
 import {
   SiCss,
-  SiGit,
   SiGooglechrome,
   SiNodedotjs,
   SiNpm,
@@ -124,29 +123,38 @@ export const works: WorkProject[] = [
     slug: "initmyrepo",
     year: "2025",
     title: "InitMyRepo",
-    desc: "Initialize git repos with templates",
+    desc: "Scaffold any project in seconds",
     url: "https://github.com/luminescencedev/InitMyRepo",
     icons: [
-      { Icon: SiGit, color: "#F05032" },
-      { Icon: SiNodedotjs, color: "#339933" },
       { Icon: SiTypescript, color: "#3178C6" },
+      { Icon: SiNodedotjs, color: "#339933" },
       { Icon: SiNpm, color: "#CB3837" },
     ],
     caseStudy: [
       {
         type: "text",
         content:
-          "Starting a new repo always involves the same fifteen minutes of setup: ESLint, Prettier, Husky, commit conventions, CI config. InitMyRepo collapses that into one command. Run it, pick a stack, and your repo is ready to push — with everything wired up and working.",
-      },
-      {
-        type: "image",
-        src: "/projects/initmyrepo.png",
-        caption: "CLI prompt — stack selection and optional CI / commit-lint flags.",
+          "Every project starts with the same ritual — scaffold the framework, add TypeScript, configure ESLint, wire up Tailwind, write the CI file, commit the initial state. It's not hard, just slow. InitMyRepo is a CLI that collapses that entire setup into a single interactive command.",
       },
       {
         type: "text",
         content:
-          "The CLI is written in Node.js and TypeScript, distributed via npm. Templates live in a separate curated repo and are fetched at generation time — so they stay up to date without requiring a new CLI release. The scaffold runs fully offline once the templates are cached.",
+          "The wizard walks you through a short sequence of choices: what kind of project are you building, which framework, and — for Vite-based stacks — whether you want TypeScript or JavaScript and Tailwind CSS v4 or vanilla CSS. 30 templates in total, spread across web, mobile, backend, full-stack, and monorepo. The output is not a minimal hello-world — it's a repo configured the way you'd actually want it, ready to push.",
+      },
+      {
+        type: "image",
+        src: "/projects/initmyrepo.gif",
+        caption: "npx initmyrepo@latest — your repo is ready in seconds.",
+      },
+      {
+        type: "text",
+        content:
+          "There's also a favorites system. If you have a private template or a custom git repository you go back to often, you can save it as a favorite — give it a name, an emoji, and next time run --fav to skip the wizard entirely and jump straight to it. Favorites are stored locally via conf, no account needed.",
+      },
+      {
+        type: "text",
+        content:
+          "Under the hood: TypeScript 5.6, @clack/prompts for the terminal UI, commander for the CLI surface, execa to shell out git and package manager commands, and tsup to bundle the whole thing. Available via npx, a global npm install, or Homebrew on macOS and Linux.",
       },
     ],
   },
