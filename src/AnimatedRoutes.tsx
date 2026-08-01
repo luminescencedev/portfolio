@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router";
 import { getLenis } from "./hooks/useLenisScroll";
 import App from "./pages/App";
+import LabPage from "./pages/LabPage";
 import ProjectPage from "./pages/ProjectPage";
 import VisualNotesPage from "./pages/VisualNotesPage";
 
@@ -22,6 +23,7 @@ export default function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<App />} />
         <Route path="/work/:slug" element={<ProjectPage />} />
+        <Route path="/lab" element={<LabPage />} />
         <Route path="/visual-notes" element={<VisualNotesPage />} />
       </Routes>
     </AnimatePresence>

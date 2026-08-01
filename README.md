@@ -38,6 +38,7 @@ pnpm run lint       # ESLint over all TS/TSX
 | --- | --- | --- |
 | `/` | `pages/App.tsx` | Home — about, work timeline, projects, Lab + Visual notes teasers, links, local time |
 | `/work/:slug` | `pages/ProjectPage.tsx` | Project case study, from `data/works.ts` |
+| `/lab` | `pages/LabPage.tsx` | Lab hub — carousel of experiments, each opening in a drawer |
 | `/visual-notes` | `pages/VisualNotesPage.tsx` | Photo selection |
 
 All routes are wrapped in `AnimatePresence mode="wait"` for cross-fade transitions, and scroll is
@@ -68,20 +69,20 @@ src/
 
 `Root.tsx` runs one sequence on first mount:
 
-1. Preload `data/criticalAssets.ts` and wait on `document.fonts.ready`, reporting progress.
-2. `GlobalLoader` — a white overlay at `z-[10000]` — swaps one black shape every 200 ms
-   (square → cross → triangle → circle) on **hard cuts**: no crossfade, no scale, no rotation. The
-   box is fixed at 40×40 so nothing moves between forms. Below it, a monospace percentage: real
-   progress arrives in coarse steps, so it is fed through a `useSpring` and written straight to a
-   DOM ref, climbing continuously instead of jumping. `prefers-reduced-motion` freezes the shape.
-3. The exit is driven by the counter, not by a timer: the instant the displayed value reaches 100,
-   the shape cycle stops on whatever form is showing. The loader then holds **300 ms** on that
-   still shape — the beat that marks the end of the load — and fades out over 0.4 s. The Home page
-   is already rendered underneath, so it simply appears rather than fading in again.
-4. Guardrails: **1100 ms minimum** so the counter has time to read, **4 s failsafe** so a stalled
-   asset can't trap the page. A missing image resolves rather than rejects, and the displayed value
-   is held at 95 until both are satisfied — so the counter never sits on 100 waiting for a timer.
-4. Scroll is locked (`documentElement.overflow`) and the content below is `inert`.
+1. Preload `data/criticalAssets.ts` and wait on `document.fonts.ready`, tracking progress.
+2. `GlobalLoader` — a white overlay at `z-[10000]` — swaps one of four custom black marks (zigzag,
+   blob, star, grid) every 200 ms on **hard cuts**: no crossfade, no scale, no rotation. They share
+   one 112×112 box so nothing moves between forms. No counter, no text — the mark is the whole
+   screen. `prefers-reduced-motion` freezes it.
+3. The exit is driven by progress, not by a timer. Progress is sprung so it reads as continuous even
+   though it is never displayed, and the instant it lands on 100 the cycle stops on whatever form is
+   showing. The loader holds **250 ms** on that still shape — the beat that marks the end of the
+   load — then fades out over 0.4 s. The Home page is already rendered underneath, so it simply
+   appears rather than fading in again.
+4. Guardrails: **1100 ms minimum** so the sequence has time to read, **4 s failsafe** so a stalled
+   asset can't trap the page. A missing image resolves rather than rejects, and progress is held at
+   95 until both are satisfied — so the loader never sits at 100 waiting for a timer.
+5. Scroll is locked (`documentElement.overflow`) and the content below is `inert`.
 
 The Home page renders *underneath* the opaque loader, so the loader fading out is the only
 transition — no blank frame, no second global fade.
@@ -96,6 +97,10 @@ entirely: negative-`z-index` descendants paint *before* their parent's own backg
 
 `background-attachment: fixed` is deliberately **not** used — it caused repaints during smooth
 scroll and flashes on mobile Safari.
+
+A page can drop the layer and run on flat white by calling `usePlainBackground()` (see `/lab`). The
+fade lives in CSS on `body::before` at 0.28 s, matching the page transition, so the background and
+the page move on the same beat.
 
 ### Smooth scroll
 
@@ -126,9 +131,17 @@ blocks. Screenshots go in `public/projects/`.
 `src/data/visualNotes.ts`. `width`/`height` are required: they reserve the space and prevent layout
 shift.
 
-**Lab** is a placeholder for now — `components/LabPreview` renders one row (`Lab` + `View all →`,
-arrow springs on hover) with no route and no data behind it. Experiments will be added one at a
-time.
+**A Lab experiment** → two steps:
+
+1. Add an entry to `src/data/labExperiments.ts`: `slug`, `title`, `year`, `description`, a `card`
+   (`width` in px, `ratio` as width/height, optional `shift` and `src`), optional `tags`, and a
+   `component` key. The hub picks it up and drops the placeholders as soon as the array is non-empty.
+2. Create the demo in `src/lab/` and register it in `src/lab/registry.ts` as a `lazy()` import under
+   that same `component` key, so it gets its own chunk. Until then the drawer shows
+   `nothing to test yet`.
+
+An experiment opens in a drawer — panel on the right at `lg+`, full screen on mobile — not on its own
+route.
 
 ## Adding images
 

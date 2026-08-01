@@ -1,14 +1,16 @@
 import { motion } from "motion/react";
+import { useNavigate } from "react-router";
 
-/**
- * Placeholder row. No route, no content yet — experiments get added one at a
- * time. The arrow reacts on hover, nothing else happens.
- */
+/** One row on the Home, linking to the Lab hub. The arrow reacts on hover. */
 export default function LabPreview() {
+  const navigate = useNavigate();
+
   return (
     <section className="mb-12 w-full rounded-2xl p-4" aria-label="Lab">
-      <motion.div
-        className="flex items-baseline justify-between px-2"
+      <motion.button
+        onClick={() => navigate("/lab")}
+        aria-label="Lab — view all experiments"
+        className="flex w-full cursor-pointer items-baseline justify-between rounded-xl px-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1"
         initial="rest"
         animate="rest"
         whileHover="hover"
@@ -26,7 +28,7 @@ export default function LabPreview() {
             →
           </motion.span>
         </span>
-      </motion.div>
+      </motion.button>
     </section>
   );
 }
