@@ -2,6 +2,8 @@ import { motion } from "motion/react";
 import Works from "../components/Works";
 import About from "../components/About";
 import WorkTimeline from "../components/WorkTimeline";
+import LabPreview from "../components/LabPreview";
+import VisualNotesPreview from "../components/VisualNotesPreview";
 import Links from "../components/Links";
 import Clock from "../components/Clock/Clock";
 import CustomCursor from "../components/CustomCursor";
@@ -23,6 +25,8 @@ export default function App() {
           <About />
           <WorkTimeline />
           <Works />
+          <LabPreview />
+          <VisualNotesPreview />
           <Links />
           <Clock />
         </div>

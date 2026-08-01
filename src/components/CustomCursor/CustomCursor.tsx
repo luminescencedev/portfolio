@@ -21,19 +21,48 @@ export default function CustomCursor() {
   const yTextRef = useRef<HTMLDivElement>(null);
   const [isEgg, setIsEgg] = useState(false);
 
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX + 18);
-      mouseY.set(e.clientY - 24);
-      if (xTextRef.current) xTextRef.current.textContent = `x: ${e.clientX}px`;
-      if (yTextRef.current) yTextRef.current.textContent = `y: ${e.clientY}px`;
+  const isEggRef = useRef(false);
+  const frameRef = useRef<number | null>(null);
+  const latestMouseRef = useRef({ x: 0, y: 0 });
 
-      const dx = e.clientX - EASTER_X;
-      const dy = e.clientY - EASTER_Y;
-      setIsEgg(Math.sqrt(dx * dx + dy * dy) <= RADIUS);
+  useEffect(() => {
+    // One update per frame, even if several mousemove events land in the same
+    // frame. setIsEgg only fires when the value actually flips.
+    const updateCursor = () => {
+      const { x: clientX, y: clientY } = latestMouseRef.current;
+
+      mouseX.set(clientX + 18);
+      mouseY.set(clientY - 24);
+
+      if (xTextRef.current) xTextRef.current.textContent = `x: ${clientX}px`;
+      if (yTextRef.current) yTextRef.current.textContent = `y: ${clientY}px`;
+
+      const dx = clientX - EASTER_X;
+      const dy = clientY - EASTER_Y;
+      const insideEgg = dx * dx + dy * dy <= RADIUS * RADIUS;
+
+      if (insideEgg !== isEggRef.current) {
+        isEggRef.current = insideEgg;
+        setIsEgg(insideEgg);
+      }
+
+      frameRef.current = null;
     };
+
+    const onMove = (e: MouseEvent) => {
+      latestMouseRef.current = { x: e.clientX, y: e.clientY };
+
+      if (frameRef.current === null) {
+        frameRef.current = requestAnimationFrame(updateCursor);
+      }
+    };
+
     window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    };
   }, [mouseX, mouseY]);
 
   return (

@@ -76,6 +76,7 @@ export default function ProjectPage() {
                     src={block.src}
                     alt={block.caption ?? project.title}
                     className="w-full rounded-xl border border-neutral-200 object-cover"
+                    loading="lazy"
                     decoding="async"
                   />
                   {block.caption && (

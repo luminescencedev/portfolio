@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arthur Garnier — Portfolio</title>
 
+    <!-- Start the background download before React boots -->
+    <link rel="preload" href="/background.png" as="image" type="image/png" />
+    <style>
+      /* Only on html — a body background would cover the fixed background layer. */
+      html {
+        background-color: #ffffff;
+      }
+    </style>
+
     <!-- Open Graph / social preview -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Arthur Garnier — Portfolio" />
