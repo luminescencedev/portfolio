@@ -12,7 +12,15 @@ import {
 
 export type CaseStudyBlock =
   | { type: "text"; content: string }
-  | { type: "image"; src: string; caption?: string };
+  /** width/height are the intrinsic pixel size — they reserve the box so the
+   *  page never jumps when the image lands. */
+  | {
+      type: "image";
+      src: string;
+      width: number;
+      height: number;
+      caption?: string;
+    };
 
 export type WorkProject = {
   slug: string;
@@ -48,6 +56,8 @@ export const works: WorkProject[] = [
       {
         type: "image",
         src: "/projects/initmyfolio.png",
+        width: 2535,
+        height: 1455,
         caption: "Template picker — choose a layout and preview it live before generating.",
       },
       {
@@ -79,6 +89,8 @@ export const works: WorkProject[] = [
       {
         type: "image",
         src: "/projects/linkshelf.png",
+        width: 2541,
+        height: 1344,
         caption: "New tab dashboard — collections on the left, library on the right.",
       },
       {
@@ -110,6 +122,8 @@ export const works: WorkProject[] = [
       {
         type: "image",
         src: "/projects/carabine-ui.png",
+        width: 2541,
+        height: 1345,
         caption: "Component catalogue — Button, Input, Select, and Modal variants.",
       },
       {
@@ -144,6 +158,8 @@ export const works: WorkProject[] = [
       {
         type: "image",
         src: "/projects/initmyrepo.gif",
+        width: 1200,
+        height: 720,
         caption: "npx initmyrepo@latest — your repo is ready in seconds.",
       },
       {

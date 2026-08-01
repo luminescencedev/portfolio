@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
 import { TbArrowBack } from "react-icons/tb";
 import { useNavigate } from "react-router";
-import CustomCursor from "../components/CustomCursor";
 import { visualNotes } from "../data/visualNotes";
 
 export default function VisualNotesPage() {
@@ -15,8 +14,6 @@ export default function VisualNotesPage() {
       exit={{ opacity: 0, y: 12 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
-      <CustomCursor />
-
       <div className="flex w-full">
         <div className="flex-1" />
         <div className="flex w-full max-w-140 shrink-0 flex-col gap-10">

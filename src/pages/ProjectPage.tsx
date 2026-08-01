@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
 import { TbArrowBack } from "react-icons/tb";
 import { useNavigate, useParams } from "react-router";
-import CustomCursor from "../components/CustomCursor";
 import { works } from "../data/works";
 
 export default function ProjectPage() {
@@ -25,8 +24,6 @@ export default function ProjectPage() {
       exit={{ opacity: 0, y: 12 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
-      <CustomCursor />
-
       <div className="flex w-full">
         <div className="flex-1" />
         <div className="w-full max-w-140 shrink-0 flex flex-col gap-10">
@@ -75,7 +72,9 @@ export default function ProjectPage() {
                   <img
                     src={block.src}
                     alt={block.caption ?? project.title}
-                    className="w-full rounded-xl border border-neutral-200 object-cover"
+                    width={block.width}
+                    height={block.height}
+                    className="h-auto w-full rounded-xl border border-neutral-200 bg-black/2"
                     loading="lazy"
                     decoding="async"
                   />

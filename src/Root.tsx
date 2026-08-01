@@ -1,6 +1,7 @@
 import { AnimatePresence } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AnimatedRoutes from "./AnimatedRoutes";
+import CustomCursor from "./components/CustomCursor";
 import GlobalLoader from "./components/GlobalLoader";
 import { criticalAssets } from "./data/criticalAssets";
 import { useLenisScroll } from "./hooks/useLenisScroll";
@@ -94,6 +95,10 @@ export default function Root() {
           />
         )}
       </AnimatePresence>
+
+      {/* One instance for the whole app. Mounted per page it would unmount on
+          every route change and reappear at 0,0 until the next mousemove. */}
+      <CustomCursor />
 
       <div inert={isLoading ? true : undefined}>
         <AnimatedRoutes />

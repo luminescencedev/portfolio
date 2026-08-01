@@ -6,7 +6,6 @@ import LabPreview from "../components/LabPreview";
 import VisualNotesPreview from "../components/VisualNotesPreview";
 import Links from "../components/Links";
 import Clock from "../components/Clock/Clock";
-import CustomCursor from "../components/CustomCursor";
 
 export default function App() {
   return (
@@ -17,8 +16,6 @@ export default function App() {
       exit={{ opacity: 0, y: 12 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
-      <CustomCursor />
-
       <div className="flex w-full items-start">
         <div className="flex-1" />
         <div className="w-full max-w-140 shrink-0">

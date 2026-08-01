@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useState } from "react";
 import { TbArrowBack } from "react-icons/tb";
 import { useNavigate } from "react-router";
-import CustomCursor from "../components/CustomCursor";
 import LabCarousel from "../components/LabCarousel";
 import LabDrawer from "../components/LabDrawer";
 import { PLACEHOLDER_CARDS, labExperiments } from "../data/labExperiments";
@@ -43,8 +42,6 @@ export default function LabPage() {
       exit={{ opacity: 0, y: 12 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
     >
-      <CustomCursor />
-
       {/* Type sits in the Home column; the reel breaks out of it. */}
       <div className="flex w-full items-start">
         <div className="flex-1" />
@@ -64,7 +61,6 @@ export default function LabPage() {
 
         <div className="flex-1" />
       </div>
-
       <div className="mt-10">
         <LabCarousel
           experiments={experiments}
@@ -72,7 +68,6 @@ export default function LabPage() {
           onActiveChange={handleActiveChange}
         />
       </div>
-
       {/* Reads out the centred card. Below the drawer's z-index. */}
       <div
         className="pointer-events-none fixed bottom-6 left-4 z-30 sm:bottom-8 sm:left-8"

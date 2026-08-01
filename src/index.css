@@ -22,6 +22,10 @@
 html {
   min-height: 100%;
   background-color: #ffffff;
+
+  /* Keeps the scrollbar gutter reserved, so locking overflow — the loader, the
+     Lab drawer — cannot shift the layout sideways. */
+  scrollbar-gutter: stable;
 }
 
 body {
